@@ -10,16 +10,17 @@ from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 
+from src.conf.config import settings
 from src.database.db_connection import get_db_func
 from src.repository import users as repository_users
 
 
 class Auth:
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-    SECRET_KEY = "secret_key"
-    ALGORITHM = "HS256"
+    SECRET_KEY = settings.secret_key
+    ALGORITHM = settings.algorithm
     oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
-    red_cash = redis.Redis(host='localhost', port=6379, db=0)
+    red_cash = redis.Redis(host=settings.redis_host, port=settings.redis_port, db=0)
 
     def verify_password(self, plain_password, hashed_password):
         return self.pwd_context.verify(plain_password, hashed_password)
@@ -98,15 +99,15 @@ class Auth:
         return token
 
 
-async def get_email_from_token(self, token: str):
-    try:
-        payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
-        email = payload["sub"]
-        return email
-    except JWTError as e:
-        print(e)
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                            detail="Invalid token for email verification")
+    async def get_email_from_token(self, token: str):
+        try:
+            payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
+            email = payload["sub"]
+            return email
+        except JWTError as e:
+            print(e)
+            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                                detail="Invalid token for email verification")
 
 
 auth_service = Auth()
