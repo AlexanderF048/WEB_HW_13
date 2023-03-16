@@ -26,13 +26,59 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def startup():
+    """
+    The startup function is called when the application starts up.
+    It's a good place to initialize things that are needed by your app,
+    such as database connections or external services.
+    :return: A list of functions to run after the server starts
+
+    :return: A list of functions to be executed after the server starts
+    :doc-author: Trelent
+    """
+    """    
+    The startup function is called when the application starts up.
+    It's a good place to initialize things that are needed by your app,
+    such as database connections or external services.
+    :return: A list of functions to run after the server starts
+    
+    :return: A list of functions to be executed after the server starts
+    :doc-author: Trelent
+    """
+    """    
+    The startup function is called when the application starts up.
+    It's a good place to initialize things that are needed by your app,
+    such as connecting to databases or initializing caches.
+    
+    :return: A list of functions to be executed
+    :doc-author: Trelent
+    """
+    """    
+    The startup function is called when the application starts up.
+    It's a good place to initialize things that are needed by your app,
+    such as database connections or external services.
+    
+    :return: A list of functions to run after the server starts
+    :doc-author: Trelent
+    """
     red_limit = await redis.Redis(host='localhost', port=6379, db=0, encoding="utf-8", decode_responses=True)
     await FastAPILimiter.init(red_limit)
 
 
 @app.get("/")
 def read_root():
-    return {"message": "Hello World"}
+    """
+    The read_root function returns a dictionary with the key &quot;message&quot; and value &quot;Hello World!&quot;.
+
+    :return: A dictionary
+    :doc-author: Trelent
+    """
+    """    
+    The read_root function returns a dictionary with the key &quot;message&quot; and value &quot;Hello World!&quot;.
+    
+    :return: A dictionary with a key &quot;message&quot; and the value &quot;hello world!&quot;
+    :doc-author: Trelent
+    """
+    return {"message": "Hello World!"}
 
 
 

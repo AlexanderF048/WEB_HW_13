@@ -44,6 +44,17 @@ class ContactPersonModel(BaseModel):
 
     @validator('phone')
     def real_phone(cls, phone, **kwargs):
+        """
+        The real_phone function validates that the phone number is in a real format.
+            Args:
+                phone (str): The phone number to validate.
+
+        :param cls: Pass the class that is being validated
+        :param phone: Store the phone number
+        :param **kwargs: Pass keyworded, variable-length argument list to a function
+        :return: A string that is a phone number,
+        :doc-author: Trelent
+        """
         regex = r"^(\+)[0-9]{9,18}$"
         result = re.findall(regex, phone)
         if not result:
